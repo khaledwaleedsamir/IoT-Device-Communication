@@ -1,0 +1,4 @@
+#ifndef SERVER_CHANNEL_H_
+#define SERVER_CHANNEL_H_
+
+#endif /*SERVER_CHANNEL_H_*/

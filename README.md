@@ -6,9 +6,6 @@ This project implements an IoT device communication system using C++ with YOCTO 
 
 ## Folder Structure
 
-- `include/` : Header files
-- `src/` : Source files
-
 
 ## Build Instructions
 

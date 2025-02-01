@@ -1,0 +1,4 @@
+#ifndef CLIENT_CHANNEL_H_
+#define CLIENT_CHANNEL_H_
+
+#endif /*CLIENT_CHANNEL_H_*/
