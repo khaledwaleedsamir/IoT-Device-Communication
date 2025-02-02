@@ -3,7 +3,7 @@
 TCPSocket::TCPSocket(){
     socket_fd = socket(AF_INET, SOCK_STREAM, 0);
     if(socket_fd < 0){
-        std::cerr<<"Failed to create socket !"<<std::endl;
+        throw std::runtime_error("Failed to create socket: " + std::string(strerror(errno)));
     }
 }
 
@@ -30,7 +30,7 @@ void TCPSocket::bind(const std::string &ip, unsigned short int port){
     this->socket_address.sin_addr.s_addr = INADDR_ANY;
     this->socket_address.sin_port = htons(port);
     if(::bind(socket_fd,(struct sockaddr*)&socket_address, sizeof(socket_address)) < 0){
-        std::cerr<<"Failed to bind!"<<std::endl;
+        std::cerr << "Warning: Failed to bind to port " << port << ": " << strerror(errno) << std::endl;
     }
 
 }
