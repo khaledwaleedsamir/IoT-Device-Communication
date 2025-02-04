@@ -38,6 +38,9 @@ void UDPSocket::bind(const std::string &ip, unsigned short int port) {
     }
     // For multicast
     else if (trans_type == UDP_Transmission_Type::MULTICAST) {
+        client_socket_address.sin_family = AF_INET;
+        client_socket_address.sin_port = htons(port);
+        client_socket_address.sin_addr.s_addr = inet_addr(ip.c_str());
         if (ip.empty()) {
             throw std::runtime_error("Error: no multicast IP provided.");
         }

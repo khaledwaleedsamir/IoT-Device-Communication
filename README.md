@@ -8,8 +8,14 @@ This project implements an IoT device communication system using C++ with YOCTO 
 
 
 ## Build Instructions
+1- Use Cmake to build the project go inside the build directory and run:
+> cmake ..
 
-TODO: Provide Build Instructions.
+2- After cmake finishes run make all inside the build directory
+> make all
+
+3- The output executable files will be found in the `/build/bin` directory.
+
 
 ## Usage
 
