@@ -1,25 +1,24 @@
 #include <iostream>
-#include "../../src/channel/server_channel.hpp"
-
+#include "../src/channel/server_channel.hpp"
+#include <cstdlib>
 int main(){
-    std::string multicast_ip;
-    unsigned short int multicast_port;
-    std::cout<<"Enter multicast address: ";
-    std::cin>>multicast_ip;
-    std::cout<<"Enter multicast port: ";
-    std::cin>>multicast_port;
-    Socket* server_sock = new UDPSocket(UDP_Transmission_Type::MULTICAST);
-    Channel* server = new ServerChannel(server_sock, "0.0.0.0", multicast_port, multicast_ip);
+    Socket* server_socket = new TCPSocket();
+    std::string ip;
+    unsigned short int port;
+    std::cout<<"Enter ip: ";
+    std::cin>>ip;
+    std::cout<<"Enter port: ";
+    std::cin>>port;
+    Channel* server = new ServerChannel(server_socket, ip, port);
     server->start();
-    int sensor_data = 0;
     std::string msg;
+    int sensor_data = 0;
     int iterations = 10;
-    while (true){
+    while(true){
         // simulating temp sensor data until driver is written
         sensor_data = rand() % 101;
         msg = "Current Temp. is " + std::to_string(sensor_data);
         server->send(msg);
-        std::cout<<"message sent: "<<msg<<std::endl;
         iterations--;
         if(iterations == 0){
             std::cout<<"If you want to stop send 'stop'"<<std::endl;
@@ -33,10 +32,11 @@ int main(){
         }
         sleep(1);
     }
+    server->stop();
     delete server;
     server = nullptr;
-    delete server_sock;
-    server_sock = nullptr;
-    std::cout<<"UDP multicast is closed!"<<std::endl;
+    delete server_socket;
+    server_socket = nullptr;
+    std::cout<<"Connection terminated succssefully!"<<std::endl;
     return 0;
 }

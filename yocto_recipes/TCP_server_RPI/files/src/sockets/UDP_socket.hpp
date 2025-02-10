@@ -8,6 +8,7 @@
 enum class UDP_Transmission_Type{
     UNICAST,   // one-to-one
     MULTICAST, // one-to-many
+    BROADCAST  // one-to-all
 };
 
 /* UDP_socket derived class from abstract class sockets */
@@ -15,7 +16,7 @@ class UDPSocket : public Socket{
     private:
     int socket_fd;
     struct sockaddr_in socket_address;
-    struct sockaddr_in destination;
+    struct sockaddr_in client_socket_address;
     struct ip_mreq mreq;
     UDP_Transmission_Type trans_type;
 

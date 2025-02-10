@@ -9,11 +9,9 @@ class ServerChannel : public Channel {
     unsigned short int port;
     std::string ip;
     Socket* ClientSocket;
-    std::string destination_ip;
     public:
     /* Constructor*/
-    ServerChannel(Socket* socket, std::string bind_ip, unsigned short int port);
-    ServerChannel(Socket* socket, std::string bind_ip, unsigned short int port, std::string destination_ip);
+    ServerChannel(Socket* socket, std::string ip, unsigned short int port);
     /* Functions */
     void start() override;
     void stop() override;

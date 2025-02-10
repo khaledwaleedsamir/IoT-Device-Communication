@@ -1,11 +1,8 @@
 #include "server_channel.hpp"
 
 /* Constructor */
-ServerChannel::ServerChannel(Socket* socket, std::string bind_ip, unsigned short int port)
-    : Channel(socket), ip(bind_ip), port(port), ClientSocket(nullptr), destination_ip("") {}
-    
-ServerChannel::ServerChannel(Socket* socket, std::string bind_ip, unsigned short int port, std::string destination_ip)
-    : Channel(socket), ip(bind_ip), port(port), ClientSocket(nullptr), destination_ip(destination_ip) {}
+ServerChannel::ServerChannel(Socket* socket, std::string ip, unsigned short int port)
+    : Channel(socket), ip(ip), port(port), ClientSocket(nullptr) {}
 
 /* Start function */
 void ServerChannel::start() {
@@ -19,13 +16,7 @@ void ServerChannel::start() {
             ClientSocket = tcpSocket->accept();
             std::cout << "Client connected!" << std::endl;
         } else {
-            std::cout << "UDP Server binded to: " << ip << " : " << port << std::endl;
-            UDPSocket* udpSocket = dynamic_cast<UDPSocket*>(channelSocket);
-            udpSocket->setTTL(5);
-            if(!destination_ip.empty()){
-                udpSocket->connect(destination_ip, port);
-                std::cout<<"Destination ip: "<<destination_ip<<std::endl;
-            } 
+            std::cout << "UDP Server started on " << ip << " : " << port << std::endl;
         }
     } catch (const std::exception& e) {
         std::cerr << "Error in ServerChannel::start(): " << e.what() << std::endl;

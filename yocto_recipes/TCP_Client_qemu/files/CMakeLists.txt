@@ -17,11 +17,14 @@ file(GLOB_RECURSE SRC_FILES src/**/*.cpp)
 # ======= Unicast TCP =======
 # TCP Client
 add_executable(Unicast_TCP_client Application/Unicast_TCP/client.cpp ${SRC_FILES})
-# TCP Server
-add_executable(Unicast_TCP_server Application/Unicast_TCP/server.cpp ${SRC_FILES})
 
-# ======= Multicast UDP =======
-# UDP Clients
-add_executable(Multicast_UDP_client1 Application/Multicast_UDP/client1.cpp ${SRC_FILES})
-# UDP Server
-add_executable(Multicast_UDP_server Application/Multicast_UDP/server.cpp ${SRC_FILES})
+# Install the compiled executable
+install(TARGETS Unicast_TCP_client DESTINATION bin)
+
+# Installation Rules
+install(FILES ${CMAKE_SOURCE_DIR}/src/sockets/sockets.hpp
+              ${CMAKE_SOURCE_DIR}/src/sockets/TCP_socket.hpp
+              ${CMAKE_SOURCE_DIR}/src/sockets/UDP_socket.hpp
+              ${CMAKE_SOURCE_DIR}/src/channel/channel.hpp
+              ${CMAKE_SOURCE_DIR}/src/channel/client_channel.hpp
+              DESTINATION include)

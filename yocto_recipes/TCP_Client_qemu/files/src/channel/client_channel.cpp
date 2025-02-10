@@ -4,10 +4,6 @@ ClientChannel::ClientChannel(Socket* socket, std::string ip, unsigned short int 
 /* Functions */
 void ClientChannel::start(){
     try{
-        UDPSocket* udpSocket = dynamic_cast<UDPSocket*>(channelSocket);
-        if(udpSocket != nullptr){
-            channelSocket->bind("0.0.0.0", port);
-        }
         channelSocket->connect(ip,port);
     }
     catch(const std::exception &e){
