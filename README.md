@@ -1,21 +1,44 @@
 # IoT Device Communication System
+<img src="readme_pics/coverphoto.png" alt="Yocto Raspberry Pi">
 
-## Overview
-
+## **📌 Overview**
 This project implements an IoT device communication system using C++ with YOCTO for Raspberry Pi and QEMU. The system transmits sensor data between multiple QEMU client devices and a central server running on Raspberry Pi that is connected to the sensor. The communication occurs through TCP and UDP sockets, implemented in C++.
+### **Table of Contents**
+* [System Architecture](#📖-system-architecture)
+* [Detailed Description](#ℹ️-detailed-description)
+* [C++ Design Choices](#🛠️-c-design-choices)
+* [Build Instructions](#🔧-build-instructions)
+  * [Run on PC](#1--to-run-the-server-and-clients-on-your-pc)
+  * [Create Linux Image for QEMU](#2--to-create-the-images-for-qemu-using-yocto)
+  * [Create Linux Image for Raspberry Pi](#3--to-create-the-images-for-raspberry-pi)
 
-## Detailed Description
+## **📖 System Architecture**
+The system follows an **object-oriented approach** with the **Bridge design pattern**.  
+
+- The `Channel` class acts as an **abstraction**, while its implementations (`ServerChannel` and `ClientChannel`) use different **socket types**.
+- Communication is handled using:
+  - **TCP sockets** (for unicast communication).
+  - **UDP sockets** (for unicast and multicast communication).
+- **Yocto** is used to build the **custom Linux image** for both QEMU clients and the Raspberry Pi.
+
+
+## **ℹ️ Detailed Description**
 Sensor data is transmitted from the server running on raspberry pi to the clients running on QEMU utilizing the `Channel` class and its derived classes `ServerChannel` and `ClientChannel`. This sensor data transmission is done using TCP sockets (unicast) or UDP Sockets (unicast or multicast). Server application is developed for the Raspberry pi and client application is developed for the QEMU clients. 
 
 In this repo applications for TCP unicast and UDP multicast are provided. Yocto is used to build the Linux OS image to run on both QEMU and the raspberry pi and the files include the yocto recipes needed to create the images. 
 
 Cmake is used for automating the building of the project provided a CmakeLists.txt file for building the project and running on your local machine and there also separate CmakeLists.txt file specific to each application that is used when creating the yocto image.
 
-## C++ Design choices
-In this project, the Bridge design pattern was chosen to separate the abstraction `Channel` from its implementation `Socket`. This allows for independent evolution of both the channel and socket components. Why the Bridge Pattern? The bridge pattern allows the communication logic (Channel) to be decoupled from the specific socket type (TCPSocket, UDPSocket). This reduces the complexity and makes it easier to extend the system in the future without changing the core components. By using the bridge pattern, it becomes easy to support new socket types (e.g., UDPSocket, TCPSocket, RawSocket) without modifying the Channel class or any of its derived classes.
+## **🛠️ C++ Design Choices**
+The **Bridge design pattern** was chosen to decouple communication logic (`Channel`) from the socket implementation (`Socket`).  
+
+### **Why the Bridge Pattern?**
+✔ **Modularity**: Allows independent evolution of `Channel` and `Socket`.  
+✔ **Flexibility**: Makes it easy to support new socket types in the future.  
+✔ **Code Reusability**: Avoids redundant code across TCP and UDP implementations.
 
 
-## Build Instructions
+## **🔧 Build Instructions**
 ### 1- To run the server and clients on your PC
 1. Use Cmake to build the project go inside the build directory and run
 ```bash

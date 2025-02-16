@@ -31,7 +31,7 @@ int main(){
             }
             iterations = 10;
         }
-        sleep(1);
+        sleep(2);
     }
     delete server;
     server = nullptr;
