@@ -1,8 +1,8 @@
 # IoT Device Communication System
-<img src="readme_pics/coverphoto.png" alt="Yocto Raspberry Pi">
+<img src="readme_pics/yocto_project_cover.jpeg" alt="Yocto Raspberry Pi">
 
 ## **📌 Overview**
-This project implements an IoT device communication system using C++ with YOCTO for Raspberry Pi and QEMU. The system transmits sensor data between multiple QEMU client devices and a central server running on Raspberry Pi that is connected to the sensor. The communication occurs through TCP and UDP sockets, implemented in C++.
+This project implements an IoT device communication system using C++ with Yocto for Raspberry Pi and QEMU. The system transmits sensor data between a central server running on Raspberry Pi that is connected to the sensor and multiple clients (emulated on QEMU). The communication occurs through TCP and UDP sockets, implemented in C++.
 ### **Table of Contents**
 * [System Architecture](#📖-system-architecture)
 * [Detailed Description](#ℹ️-detailed-description)
@@ -19,6 +19,7 @@ The system follows an **object-oriented approach** with the **Bridge design patt
 - Communication is handled using:
   - **TCP sockets** (for unicast communication).
   - **UDP sockets** (for unicast and multicast communication).
+  - The sockets implementation is based on UNIX sockets.
 - **Yocto** is used to build the **custom Linux image** for both QEMU clients and the Raspberry Pi.
 
 
@@ -33,14 +34,15 @@ Cmake is used for automating the building of the project provided a CmakeLists.t
 The **Bridge design pattern** was chosen to decouple communication logic (`Channel`) from the socket implementation (`Socket`).  
 
 ### **Why the Bridge Pattern?**
-✔ **Modularity**: Allows independent evolution of `Channel` and `Socket`.  
-✔ **Flexibility**: Makes it easy to support new socket types in the future.  
-✔ **Code Reusability**: Avoids redundant code across TCP and UDP implementations.
+It allows independent evolution of `Channel` and `Socket` and makes it easy to support new socket types in the future achieving:
+- **Modularity** ✅   
+- **Flexibility** ✅
+- **Code Reusability** ✅
 
 
 ## **🔧 Build Instructions**
 ### 1- To run the server and clients on your PC
-1. Use Cmake to build the project go inside the build directory and run
+1. Use Cmake to build the project go inside the build directory (create a build directory using `mkdir build` if it doesn't exist) and run
 ```bash
  cmake ..
  ```
