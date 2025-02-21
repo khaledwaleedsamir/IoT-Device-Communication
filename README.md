@@ -19,7 +19,7 @@ This project implements an IoT device communication system using C++ with Yocto 
 The system follows an **object-oriented approach** with the **Bridge design pattern**.
 
 <div align="center">
-  <img src="readme_pics/uml_diagram.png" alt="UML Diagram" width="700">
+  <img src="readme_pics/uml_diagram.png" alt="UML Diagram">
 </div>  
 
 ---
