@@ -1,5 +1,5 @@
 # IoT Device Communication System
-<img src="readme_pics/yocto_project_cover.jpeg" alt="Yocto Raspberry Pi">
+<img src="readme_pics/project_cover.png" alt="Project cover">
 
 ## **📌 Overview**
 This project implements an IoT device communication system using C++ with Yocto for Raspberry Pi and QEMU. The system transmits sensor data between a central server running on Raspberry Pi that is connected to the sensor and multiple clients (emulated on QEMU). The communication occurs through TCP and UDP sockets, implemented in C++.
@@ -11,6 +11,9 @@ This project implements an IoT device communication system using C++ with Yocto 
   * [Run on PC](#1--to-run-the-server-and-clients-on-your-pc)
   * [Create Linux Image for QEMU](#2--to-create-the-images-for-qemu-using-yocto)
   * [Create Linux Image for Raspberry Pi](#3--to-create-the-images-for-raspberry-pi)
+* [Hardware Setup](#🔌-hardware-setup)
+* [Example Output](#🖥️-example-output)
+* [Acknowledgments](#📜-acknowledgments)
 
 ## **📖 System Architecture**
 The system follows an **object-oriented approach** with the **Bridge design pattern**.  
@@ -29,6 +32,8 @@ Sensor data is transmitted from the server running on raspberry pi to the client
 In this repo applications for TCP unicast and UDP multicast are provided. Yocto is used to build the Linux OS image to run on both QEMU and the raspberry pi and the files include the yocto recipes needed to create the images. 
 
 Cmake is used for automating the building of the project provided a CmakeLists.txt file for building the project and running on your local machine and there also separate CmakeLists.txt file specific to each application that is used when creating the yocto image.
+
+The `Unicast_TCP_server` for the raspberry pi includes HW modules for interfacing with the DHT11 temperature sensor and the GPIO pins. This is not added in the `Multicast_UDP_server` but it it can be added in a similar way.
 
 ## **🛠️ C++ Design Choices**
 The **Bridge design pattern** was chosen to decouple communication logic (`Channel`) from the socket implementation (`Socket`).  
@@ -102,7 +107,7 @@ Note: In this project I used Raspberry Pi 1B+ V1.2 you might want to adjust the 
 ```bash
 source poky/oe-init-build-env rpi_build
 ```
-3. Add the following lines to the `local.conf` files
+3. Add the following lines to the `local.conf` file
 ```
 MACHINE ?= "raspberrypi"
 IMAGE_INSTALL += "openssh"
@@ -111,9 +116,13 @@ IMAGE_INSTALL:append = " wpa-supplicant"
 IMAGE_INSTALL:append = " iw"
 IMAGE_INSTALL:append = " nano"
 IMAGE_INSTALL:append = " tcprpiserver udprpiserver"
+```
+In this project I used an ethernet cable since  I used Raspberry Pi 1B+ V1.2 but if you have support for Wi-Fi you can add the following lines to the `local.conf` file
+```
 DISTRO_FEATURES:append = " bluez5 bluetooth wifi"
 IMAGE_INSTALL:append = " linux-firmware-bcm43430 bluez5 i2c-tools python3-smbus bridge-utils hostapd dhcpcd iptables"
 ```
+
 4. Make sure to have the following layers in the `bblayers.conf` file
 ```
 BBLAYERS ?= " \
@@ -151,3 +160,38 @@ bzip2 core-image-minimal-raspberrypi.wic.bz2
 sudo dd if=core-image-minimal-raspberrypi.wic of=/dev/sdb bs=4M conv=fdatasync status=progress
 sudo sync
 ```
+## **🔌 Hardware Setup**
+
+## **🖥️ Example Output**
+SSH was used to connect to the raspberry pi:
+
+```bash
+ssh root@<ip-address>
+```
+
+### TCP Server Running on Raspberry Pi  
+The following image shows the TCP server running on the Raspberry Pi. 
+
+<img src="readme_pics/sample_output_server.png" alt="TCP Server on Raspberry Pi" width="600">
+
+---
+
+### TCP Client Running on QEMU  
+This image demonstrates the TCP client running on a QEMU virtualized environment, receiving data from the server.
+
+<img src="readme_pics/sample_output_inc_humidity.png" alt="TCP Client on QEMU" width="600">
+
+---
+
+### TCP Client: Humidity Changes  
+To test sensor output the humdity around the sensor was changed to be more dry. The image below captures this behavior.  
+
+<img src="readme_pics/sample_output_client.png" alt="TCP Client Changing Humidity" width="600">
+
+
+## **📜 License & Acknowledgments**
+Project License file: [LICENSE](LICENSE)
+
+This project includes code  ([HW Modules](yocto_recipes/TCP_server_RPI/files/src/HW_modules)) originally written by Steffen Rauh (Copyright © 2018 Steffen Rauh) and licensed under the MIT License. Some modifications were made to adapt the original code to this project.
+
+Steffen Rauh's repository: https://github.com/Backbone81/raspberry-pi

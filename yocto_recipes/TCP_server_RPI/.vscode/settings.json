@@ -9,6 +9,7 @@
     ],
     "files.associations": {
         "*.conf": "bitbake",
-        "*.inc": "bitbake"
+        "*.inc": "bitbake",
+        "stdexcept": "cpp"
     }
 }
