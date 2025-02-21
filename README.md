@@ -16,8 +16,12 @@ This project implements an IoT device communication system using C++ with Yocto 
 * [Acknowledgments](#📜-acknowledgments)
 
 ## **📖 System Architecture**
-The system follows an **object-oriented approach** with the **Bridge design pattern**.  
-<img src="readme_pics/uml_diagram.png" alt="UML Diagram">
+The system follows an **object-oriented approach** with the **Bridge design pattern**.
+
+<div align="center">
+  <img src="readme_pics/uml_diagram.png" alt="UML Diagram" width="700">
+</div>  
+
 ---
 - The `Channel` class acts as an **abstraction**, while its implementations (`ServerChannel` and `ClientChannel`) use different **socket types**.
 - Communication is handled using:
