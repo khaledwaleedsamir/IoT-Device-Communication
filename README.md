@@ -4,16 +4,16 @@
 ## **📌 Overview**
 This project implements an IoT device communication system using C++ with Yocto for Raspberry Pi and QEMU. The system transmits sensor data between a central server running on Raspberry Pi that is connected to the sensor and multiple clients (emulated on QEMU). The communication occurs through TCP and UDP sockets, implemented in C++.
 ### **Table of Contents**
-* [System Architecture](#📖-system-architecture)
-* [Detailed Description](#ℹ️-detailed-description)
-* [C++ Design Choices](#🛠️-c-design-choices)
-* [Build Instructions](#🔧-build-instructions)
+* [System Architecture](#-system-architecture)
+* [Detailed Description](#-detailed-description)
+* [C++ Design Choices](#️-c-design-choices)
+* [Build Instructions](#-build-instructions)
   * [Run on PC](#1--to-run-the-server-and-clients-on-your-pc)
   * [Create Linux Image for QEMU](#2--to-create-the-images-for-qemu-using-yocto)
   * [Create Linux Image for Raspberry Pi](#3--to-create-the-images-for-raspberry-pi)
-* [Hardware Setup](#🔌-hardware-setup)
-* [Example Output](#🖥️-example-output)
-* [Acknowledgments](#📜-acknowledgments)
+* [Hardware Setup](#-hardware-setup)
+* [Example Output](#️-example-output)
+* [Acknowledgments](#-license--acknowledgments)
 
 ## **📖 System Architecture**
 The system follows an **object-oriented approach** with the **Bridge design pattern**.
@@ -23,7 +23,8 @@ The system follows an **object-oriented approach** with the **Bridge design patt
 </div>  
 
 ---
-- The `Channel` class acts as an **abstraction**, while its implementations (`ServerChannel` and `ClientChannel`) use different **socket types**.
+- The `Socket` class acts as an **abstraction**, while its implementations can be different socket types(`TCPSocket` and `UDPSocket`)
+- The `Channel` class acts as an **abstraction**, while its implementations (`ServerChannel` and `ClientChannel`) manage the communication flow using either TCP or UDP sockets, depending on the provided Socket type.
 - Communication is handled using:
   - **TCP sockets** (for unicast communication).
   - **UDP sockets** (for unicast and multicast communication).
@@ -166,6 +167,12 @@ sudo dd if=core-image-minimal-raspberrypi.wic of=/dev/sdb bs=4M conv=fdatasync s
 sudo sync
 ```
 ## **🔌 Hardware Setup**
+The following images illustrate the hardware connection between the **Raspberry Pi**, **DHT11 sensor**, and **LED**.
+| 🔗 Connection Diagram                     | 📸 Real Hardware Setup                     |
+|-------------------------------------------|--------------------------------------------|
+| <img src="readme_pics/HW_setup.png" alt="Hardware Setup Diagram" width="600"> | <img src="readme_pics/HW_setup2.jpg" alt="Real Hardware Setup" width="400"> |
+
+---  
 
 ## **🖥️ Example Output**
 SSH was used to connect to the raspberry pi:
@@ -182,14 +189,14 @@ The following image shows the TCP server running on the Raspberry Pi.
 ---
 
 ### TCP Client Running on QEMU  
-This image demonstrates the TCP client running on a QEMU virtualized environment, receiving data from the server.
+The following image shows the TCP client running on a QEMU virtualized environment, receiving data from the server.
 
 <img src="readme_pics/sample_output_inc_humidity.png" alt="TCP Client on QEMU" width="600">
 
 ---
 
 ### TCP Client: Humidity Changes  
-To test sensor output the humdity around the sensor was changed to be more dry. The image below captures this behavior.  
+To test sensor output the enviroment around the sensor was changed to be more dry to see the effect on humidity the image below captures this behavior.  
 
 <img src="readme_pics/sample_output_client.png" alt="TCP Client Changing Humidity" width="600">
 
