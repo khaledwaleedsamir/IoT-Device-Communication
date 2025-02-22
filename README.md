@@ -5,7 +5,7 @@
 This project implements an IoT device communication system using C++ with Yocto for Raspberry Pi and QEMU. The system transmits sensor data between a central server running on Raspberry Pi that is connected to the sensor and multiple clients (emulated on QEMU). The communication occurs through TCP and UDP sockets, implemented in C++.
 ### **Table of Contents**
 * [System Architecture](#-system-architecture)
-* [Detailed Description](#-detailed-description)
+* [Detailed Description](#ℹ️-detailed-description)
 * [C++ Design Choices](#️-c-design-choices)
 * [Build Instructions](#-build-instructions)
   * [Run on PC](#1--to-run-the-server-and-clients-on-your-pc)
